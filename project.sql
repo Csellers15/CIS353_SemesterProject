@@ -26,7 +26,7 @@ DROP TABLE dealerPhoneNum CASCADE CONSTRAINTS;
 -- --------------------------------------------------------------------
 CREATE TABLE  employee
 (
-ssn         INTEGER PRIMARY KEY,
+ssn         INTEGER PRIMARY KEY NOT NULL,
 phoneNum    VARCHAR(12), 
 commish     FLOAT,
 rate        FLOAT,
@@ -35,7 +35,7 @@ dId         INTEGER
 
 CREATE TABLE  customer
 (
-ssn         INTEGER PRIMARY KEY,
+ssn         INTEGER PRIMARY KEY NOT NULL,
 PhoneNum    VARCHAR(12), 
 name        CHAR(20),
 email       VARCHAR(320),
@@ -45,25 +45,24 @@ contactDate  DATE
 
 CREATE TABLE  vehicle
 (
-vin         INTEGER PRIMARY KEY,
+vin         INTEGER PRIMARY KEY NOT NULL,
 cost        INTEGER, 
 color       CHAR(15),
-dId         INTEGER
+dId         INTEGER,
 rId         INTEGER
-
 );
 
 CREATE TABLE model 
 (
-name        CHAR(20),
-year        INTEGER,
-vin         INTEGER
+name        CHAR(20) NOT NULL,
+year        INTEGER NOT NULL,
+vin         INTEGER,
 PRIMARY KEY (name, year)
 );
 
 CREATE TABLE dealership 
 (
-dId         INTEGER PRIMARY KEY,
+dId         INTEGER PRIMARY KEY NOT NULL,
 name        VARCHAR(20),
 address     VARCHAR(100),
 vin         INTEGER
@@ -71,15 +70,22 @@ vin         INTEGER
 
 CREATE TABLE dealerPhoneNum 
 (
-phoneNum     VARCHAR(12),
-dId          INTEGER
+phoneNum     VARCHAR(12) NOT NULL,
+dId          INTEGER NOT NULL,
 PRIMARY KEY(phoneNum, dId)
+);
+
+CREATE TABLE sale 
+(
+  purchaseDate DATE NOT NULL,
+  regPrice     INTEGER,
+  salePrice    INTEGER 
 );
 
 -----------------------------------------------------------------------
 -- Add Forign Keys (In the DDL, every IC must have a unique name; e.g. IC5, IC10, IC15, etc.)
 ----------------------------------------------------------------------
-
+ 
 
 SET FEEDBACK OFF
 -----------------------------------------------------------------------
@@ -103,5 +109,4 @@ COMMIT;
 COMMIT;
   
 SPOOL OFF
-
 
