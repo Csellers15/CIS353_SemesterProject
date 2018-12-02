@@ -20,6 +20,7 @@ DROP TABLE vehicle CASCADE CONSTRAINTS;
 DROP TABLE model CASCADE CONSTRAINTS;
 DROP TABLE dealership CASCADE CONSTRAINTS;
 DROP TABLE dealerPhoneNum CASCADE CONSTRAINTS;
+DROP TABLE sale CASCADE CONSTRAINTS;
 
 -----------------------------------------------------------------------
 -- CREATING THE TABLES  (Still need to add the changes prof made)
@@ -85,7 +86,13 @@ CREATE TABLE sale
 -----------------------------------------------------------------------
 -- Add Forign Keys (In the DDL, every IC must have a unique name; e.g. IC5, IC10, IC15, etc.)
 ----------------------------------------------------------------------
- 
+
+ALTER TABLE employee ADD CONSTRAINT IC1 FOREIGN KEY (ssn) references customer(eSsn)
+ALTER TABLE dealership ADD CONSTRAINT IC2 FOREIGN KEY (dId) references employee(dId)
+ALTER TABLE dealership ADD CONSTRAINT IC3 FOREIGN KEY (dId) references vehicle(dId)
+ALTER TABLE model ADD CONSTRAINT IC4 FOREIGN KEY (vin) references model(vin)
+
+--No idea how to do the weak key ones, also dont know how to add the contact date to the IC betwen employee and customer
 
 SET FEEDBACK OFF
 -----------------------------------------------------------------------
@@ -105,8 +112,6 @@ COMMIT;
 
 
 
-
 COMMIT;
   
 SPOOL OFF
-
