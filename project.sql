@@ -20,13 +20,14 @@ DROP TABLE vehicle CASCADE CONSTRAINTS;
 DROP TABLE model CASCADE CONSTRAINTS;
 DROP TABLE dealership CASCADE CONSTRAINTS;
 DROP TABLE dealerPhoneNum CASCADE CONSTRAINTS;
+DROP TABLE sale CASCADE CONSTRAINTS;
 
 -----------------------------------------------------------------------
 -- CREATING THE TABLES  (Still need to add the changes prof made)
 -- --------------------------------------------------------------------
 CREATE TABLE  employee
 (
-ssn         INTEGER PRIMARY KEY,
+ssn         INTEGER PRIMARY KEY NOT NULL,
 phoneNum    VARCHAR(12),
 commish     FLOAT,
 rate        FLOAT,
@@ -35,8 +36,8 @@ dId         INTEGER
 
 CREATE TABLE  customer
 (
-ssn         INTEGER PRIMARY KEY,
-phoneNum    VARCHAR(12),
+ssn         INTEGER PRIMARY KEY NOT NULL,
+PhoneNum    VARCHAR(12),
 name        CHAR(20),
 email       VARCHAR(320),
 eSsn        INTEGER,
@@ -45,24 +46,24 @@ contactDate  DATE
 
 CREATE TABLE  vehicle
 (
-vin         INTEGER PRIMARY KEY,
+vin         INTEGER PRIMARY KEY NOT NULL,
 cost        INTEGER,
 color       CHAR(15),
-dId         INTEGER
+dId         INTEGER,
 rId         INTEGER
 );
 
 CREATE TABLE model
 (
-name        CHAR(20),
-year        INTEGER,
-vin         INTEGER
+name        CHAR(20) NOT NULL,
+year        INTEGER NOT NULL,
+vin         INTEGER,
 PRIMARY KEY (name, year)
 );
 
 CREATE TABLE dealership
 (
-dId         INTEGER PRIMARY KEY,
+dId         INTEGER PRIMARY KEY NOT NULL,
 name        VARCHAR(20),
 address     VARCHAR(100),
 vin         INTEGER
@@ -70,15 +71,28 @@ vin         INTEGER
 
 CREATE TABLE dealerPhoneNum
 (
-phoneNum     VARCHAR(12),
-dId          INTEGER
+phoneNum     VARCHAR(12) NOT NULL,
+dId          INTEGER NOT NULL,
 PRIMARY KEY(phoneNum, dId)
+);
+
+CREATE TABLE sale
+(
+  purchaseDate DATE NOT NULL,
+  regPrice     INTEGER,
+  salePrice    INTEGER
 );
 
 -----------------------------------------------------------------------
 -- Add Forign Keys (In the DDL, every IC must have a unique name; e.g. IC5, IC10, IC15, etc.)
 ----------------------------------------------------------------------
 
+ALTER TABLE employee ADD CONSTRAINT IC1 FOREIGN KEY (ssn) references customer(eSsn)
+ALTER TABLE dealership ADD CONSTRAINT IC2 FOREIGN KEY (dId) references employee(dId)
+ALTER TABLE dealership ADD CONSTRAINT IC3 FOREIGN KEY (dId) references vehicle(dId)
+ALTER TABLE model ADD CONSTRAINT IC4 FOREIGN KEY (vin) references model(vin)
+
+--No idea how to do the weak key ones, also dont know how to add the contact date to the IC betwen employee and customer
 
 SET FEEDBACK OFF
 -----------------------------------------------------------------------
@@ -158,9 +172,6 @@ COMMIT;
 
 
 
-
 COMMIT;
 
 SPOOL OFF
-
-
