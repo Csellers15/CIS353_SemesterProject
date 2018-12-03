@@ -40,7 +40,7 @@ ssn           INTEGER     PRIMARY KEY NOT NULL,
 phoneNum      VARCHAR(12),
 name          CHAR(20)                NOT NULL,
 email         VARCHAR(320),
-eSsn          INTEGER                 NOT NULL,nstraint (SELLERSC.SYS_C00657293) violat
+eSsn          INTEGER                 NOT NULL,
 contactDate   DATE                    NOT NULL
 );
 
@@ -55,8 +55,8 @@ mNum        INTEGER             NOT NULL
 
 CREATE TABLE model
 (
-mNum        INTEGER PRIMARY KEY  NOT NULL,nstraint (SELLERSC.SYS_C00657293) violat
-name        CHAR(20)             NOT NULL,nstraint (SELLERSC.SYS_C00657293) violat
+mNum        INTEGER PRIMARY KEY  NOT NULL,
+name        CHAR(20)             NOT NULL,
 year        INTEGER              NOT NULL
 );
 
@@ -66,12 +66,12 @@ id         INTEGER        PRIMARY KEY    NOT NULL,
 name       VARCHAR(20)                   NOT NULL, 
 address    VARCHAR(100)                  NOT NULL
 );
-nstraint (SELLERSC.SYS_C00657293) violat
-nstraint (SELLERSC.SYS_C00657293) violat
-nstraint (SELLERSC.SYS_C00657293) violat
-nstraint (SELLERSC.SYS_C00657293) violat
-nstraint (SELLERSC.SYS_C00657293) violat
-nstraint (SELLERSC.SYS_C00657293) violat
+
+CREATE TABLE dealerPhoneNum
+(
+phoneNum     VARCHAR(12)  NOT NULL,
+dId          INTEGER      NOT NULL,
+PRIMARY KEY(phoneNum, dId)
 );
 
 CREATE TABLE sale
@@ -187,7 +187,7 @@ insert into employee values(22222222, 5438889543, 0.03, 20.1, 5);
 insert into employee values(22222222, 5438889543, 0.03, 20.1, 6);
 
 --Testing <IC14_ddl> Cost of a vehicle cannot be < 0.
-insert into vehicle values (665, -200, 'black', 1, 1);
+insert into vehicle values (665, -2000, 'black', 1, 1);
 
 SET FEEDBACK ON
 COMMIT;
@@ -198,6 +198,7 @@ COMMIT;
 --    2. A comment line stating the query in English.
 --    3. The SQL code for the query.
 -----------------------------------------------------------------------
+
 
 
 COMMIT;
