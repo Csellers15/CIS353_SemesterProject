@@ -66,7 +66,6 @@ CREATE TABLE dealership
 dId         INTEGER PRIMARY KEY NOT NULL,
 name        VARCHAR(20),
 address     VARCHAR(100),
-vin         INTEGER
 );
 
 CREATE TABLE dealerPhoneNum
@@ -135,10 +134,10 @@ insert into model values ('Crossover', 2014, 999);
 insert into model values ('Convertible', 1980, 887);
 --
 --
-insert into dealership values (1, 'dealership 1', '44 northride ave', 77);
-insert into dealership values (2, 'dealership 2', '686 cherry road', 256);
-insert into dealership values (3, 'dealership 3', '70 fulton street ne', 30);
-insert into dealership values (4, 'dealership 4', '900 broadway road', 62);
+insert into dealership values (1, 'dealership 1', '44 northride ave');
+insert into dealership values (2, 'dealership 2', '686 cherry road');
+insert into dealership values (3, 'dealership 3', '70 fulton street ne');
+insert into dealership values (4, 'dealership 4', '900 broadway road');
 --
 --
 insert into dealerPhoneNum values (7568398273, 1);
