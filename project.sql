@@ -40,7 +40,7 @@ ssn           INTEGER     PRIMARY KEY NOT NULL,
 phoneNum      VARCHAR(12),
 name          CHAR(20)                NOT NULL,
 email         VARCHAR(320),
-eSsn          INTEGER                 NOT NULL,
+eSsn          INTEGER                 NOT NULL,nstraint (SELLERSC.SYS_C00657293) violat
 contactDate   DATE                    NOT NULL
 );
 
@@ -55,8 +55,8 @@ mNum        INTEGER             NOT NULL
 
 CREATE TABLE model
 (
-mNum        INTEGER PRIMARY KEY  NOT NULL,
-name        CHAR(20)             NOT NULL,
+mNum        INTEGER PRIMARY KEY  NOT NULL,nstraint (SELLERSC.SYS_C00657293) violat
+name        CHAR(20)             NOT NULL,nstraint (SELLERSC.SYS_C00657293) violat
 year        INTEGER              NOT NULL
 );
 
@@ -66,12 +66,12 @@ id         INTEGER        PRIMARY KEY    NOT NULL,
 name       VARCHAR(20)                   NOT NULL, 
 address    VARCHAR(100)                  NOT NULL
 );
-
-CREATE TABLE dealerPhoneNum
-(
-phoneNum     VARCHAR(12)  NOT NULL,
-dId          INTEGER      NOT NULL,
-PRIMARY KEY(phoneNum, dId)
+nstraint (SELLERSC.SYS_C00657293) violat
+nstraint (SELLERSC.SYS_C00657293) violat
+nstraint (SELLERSC.SYS_C00657293) violat
+nstraint (SELLERSC.SYS_C00657293) violat
+nstraint (SELLERSC.SYS_C00657293) violat
+nstraint (SELLERSC.SYS_C00657293) violat
 );
 
 CREATE TABLE sale
@@ -145,7 +145,6 @@ insert into employee values (666884444, 6772779889, 0.09, 19.5, 2);
 insert into employee values (453453453, 6770012345, 0.01, 22.0, 2);
 insert into employee values (987987987, 5439901234, 0.08, 20.1, 1);
 insert into employee values (888665555, 853928443, 0.07, 17.0, 1);
-insert into employee values (111111111, 123456767, 0.2, 21.0, 1);
 -- --
 -- --
 insert into customer values (759302988, 2695540094, 'Sally', 'sally94@hotmail.com', 999887777, TO_DATE('05-01-2018', 'DD/MM/YYYY'));
@@ -171,6 +170,24 @@ insert into sale values (648201857,987987987,223,TO_DATE('30-10-2017', 'DD/MM/YY
 insert into sale values (123123928,888665555,432,TO_DATE('17-11-2018', 'DD/MM/YYYY'));
 insert into sale values (637449923,333445555,987,TO_DATE('07-03-2018', 'DD/MM/YYYY'));
 
+----------------------------------------------------------------------
+-- Testing integrity Constraints 
+----------------------------------------------------------------------
+
+--Testing <IC16_ddl> Two Attributes, One Row
+insert into employee values (111111111, 123456767, 0.2, 21.0, 1);
+
+--Testing < > key on Dealership
+insert into dealership values( NULL , 'dealership 1', '44 northride ave');
+
+--Testing < > Foreign Key on employee and dealership
+insert into dealership values( 5 , 'dealership 1', '44 northride ave');
+insert into dealership values( 6 , 'dealership 1', '44 northride ave');
+insert into employee values(22222222, 5438889543, 0.03, 20.1, 5);
+insert into employee values(22222222, 5438889543, 0.03, 20.1, 6);
+
+--Testing <IC14_ddl> Cost of a vehicle cannot be < 0.
+insert into vehicle values (665, -200, 'black', 1, 1);
 
 SET FEEDBACK ON
 COMMIT;
@@ -181,14 +198,6 @@ COMMIT;
 --    2. A comment line stating the query in English.
 --    3. The SQL code for the query.
 -----------------------------------------------------------------------
-SELECT * FROM employee;
-SELECT * FROM customer;
-SELECT * FROM vehicle;
-SELECT * FROM model;
-SELECT * FROM dealership;
-SELECT * FROM dealerPhoneNum;
-SELECT * FROM sale;
-
 
 
 COMMIT;
