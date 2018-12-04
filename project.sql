@@ -85,9 +85,6 @@ CREATE TABLE sale
 -- Add IC's (In the DDL, every IC must have a unique name; e.g. IC5, IC10, IC15, etc.)
 ----------------------------------------------------------------------
 
---Not Nulls --
-
-
 --Primary keys--
 ALTER TABLE employee ADD CONSTRAINT employee_pk PRIMARY KEY(ssn);
 ALTER TABLE customer ADD CONSTRAINT customer_pk PRIMARY KEY(ssn);
@@ -266,10 +263,10 @@ WHERE	e1.ssn <> e2.ssn AND e1.rate = e2.rate AND e1.ssn < e2.ssn;
 	numbers of the customer, the employee, 
 	and the dealership
 */
-SELECT 		S.saleDate, C.phoneNum, E.phoneNum, P.phoneNum
+SELECT 		S.saleDate, C.phoneNum, E.phoneNum as ePhoneNum, P.phoneNum as dPhoneNum
 FROM		sale S, customer C, employee E, dealership D, vehicle V, dealerPhoneNum P
 WHERE		S.VIN = V.VIN AND S.cSsn = C.ssn AND 
-		S.eSsn = E.ssn AND V.dId = D.id AND D.id = P.dId;
+S.eSsn = E.ssn AND V.dId = D.id AND D.id = P.dId;
 
 /*
 	SUM/AVG/MAX/MIN CALCULATIONS (4)
@@ -296,27 +293,19 @@ ORDER BY	M.year;
 
 /*
 	RELATIONAL DIVISION / SET MINUS (3, 8)
-	For every dealership who works on every project that is located in 
-	Stafford: Find the ssn and lname. Sort the results by lname
 
-	TODO: 	This needs to be reworked to fit the dealership. Not sure how
-			this one can be done.
 */
-/*
-SELECT		E.ssn, E.lname 
-FROM		employee E
-WHERE		NOT EXISTS(
-		(SELECT  P.pnumber 
-		FROM project P
-		WHERE P.plocation = 'Stafford')
-		MINUS
-		(SELECT	P.pnumber
-		FROM	works_on W, project P 
-		WHERE	W.essn = E.ssn  AND 
-				W.pno = P.pnumber  AND 
-				P.plocation = 'Stafford')
-);
-*/
+SELECT D.id, D.name
+  FROM dealership D
+  WHERE NOT EXISTS((SELECT M.mNum
+                    FROM model M
+                    WHERE M.name = 'Charger')
+                    MINUS
+                    (SELECT M.mNum
+                    FROM model M, vehicle V
+                    WHERE V.dId = D.id AND
+                          V.mNum = M.mNum AND
+                          M.name = 'Charger'));
 
 /*
 	CORRELATED SUBQUERY (6)
