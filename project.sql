@@ -187,8 +187,8 @@ insert into sale values (637449923,333445555,987,TO_DATE('07-03-2018', 'DD/MM/YY
 --Testing <IC16_ddl> Two Attributes, One Row
 insert into employee values (111111111, 123456767, 0.2, 21.0, 1);
 
---Testing < > key on Dealership
-insert into dealership values( NULL , 'dealership 1', '44 northride ave');
+--Testing <dealership_pk> key on Dealership
+insert into dealership values( 1 , 'dealership 1', '44 northride ave');
 
 --Testing <IC2_fk and employee_pk> Foreign Key on employee and dealership
 insert into dealership values( 5 , 'dealership 1', '44 northride ave');
