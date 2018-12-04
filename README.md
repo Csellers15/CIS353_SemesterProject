@@ -12,4 +12,4 @@ Project specifications are located [here](https://github.com/Csellers15/CIS353_S
 
 Initial Proposal is located [here](https://github.com/Csellers15/CIS353_SemesterProject/blob/master/proposal.docx)
 
-(Not complete)Final report is is lcoated [here](ww.google.com)
+(Not complete)Final report is is lcoated [here](https://github.com/Csellers15/CIS353_SemesterProject/blob/master/proposal.pdf)
