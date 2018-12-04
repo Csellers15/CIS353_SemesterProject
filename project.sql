@@ -260,12 +260,16 @@ FROM	employee e1, employee e2
 WHERE	e1.ssn <> e2.ssn AND e1.rate = e2.rate AND e1.ssn < e2.ssn;
 
 /*
-	FOUR TABLE JOIN (1)
-	Get pairs of employees with the same rates
+	SIX TABLE JOIN (1)
+	Get the saleDate and all phone numbers 
+	related to every sale. This means the phone 
+	numbers of the customer, the employee, 
+	and the dealership
 */
-#	Enter code here
-#	Enter code here
-#	Enter code here
+SELECT 		S.saleDate, C.phoneNum, E.phoneNum, P.phoneNum
+FROM		sale S, customer C, employee E, dealership D, vehicle V, dealerPhoneNum P
+WHERE		S.VIN = V.VIN AND S.cSsn = C.ssn AND 
+		S.eSsn = E.ssn AND V.dId = D.id AND D.id = P.dId;
 
 /*
 	SUM/AVG/MAX/MIN CALCULATIONS (4)
