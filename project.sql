@@ -27,65 +27,75 @@ DROP TABLE sale CASCADE CONSTRAINTS;
 -- --------------------------------------------------------------------
 CREATE TABLE  employee
 (
-ssn         INTEGER     PRIMARY KEY NOT NULL,
+ssn         INTEGER         NOT NULL,
 phoneNum    VARCHAR(12),
 commish     FLOAT,
-rate        FLOAT                   NOT NULL,
-dId         INTEGER                 NOT NULL
+rate        FLOAT           NOT NULL,
+dId         INTEGER         NOT NULL
 );
 
 CREATE TABLE  customer
 (
-ssn           INTEGER     PRIMARY KEY NOT NULL,
-phoneNum      VARCHAR(12),
-name          CHAR(20)                NOT NULL,
-email         VARCHAR(320),
-eSsn          INTEGER                 NOT NULL,
-contactDate   DATE                    NOT NULL
+ssn          INTEGER        NOT NULL,
+phoneNum     VARCHAR(12),
+name         CHAR(20)       NOT NULL,
+email        VARCHAR(320),
+eSsn         INTEGER        NOT NULL,
+contactDate  DATE           NOT NULL
 );
 
 CREATE TABLE  vehicle
 (
-vin         INTEGER PRIMARY KEY NOT NULL,
-cost        INTEGER             NOT NULL,
-color       CHAR(15)            NOT NULL,
-dId         INTEGER             NOT NULL,
-mNum        INTEGER             NOT NULL
+vin          INTEGER        NOT NULL,
+cost         INTEGER        NOT NULL,
+color        CHAR(15)       NOT NULL,
+dId          INTEGER        NOT NULL,
+mNum         INTEGER        NOT NULL
 );
 
 CREATE TABLE model
 (
-mNum        INTEGER PRIMARY KEY  NOT NULL,
-name        CHAR(20)             NOT NULL,
-year        INTEGER              NOT NULL
+mNum         INTEGER        NOT NULL,
+name         CHAR(20)       NOT NULL,
+year         INTEGER        NOT NULL
 );
 
 CREATE TABLE dealership
 (
-id         INTEGER        PRIMARY KEY    NOT NULL,
-name       VARCHAR(20)                   NOT NULL, 
-address    VARCHAR(100)                  NOT NULL
+id           INTEGER        NOT NULL,
+name         VARCHAR(20)    NOT NULL,
+address      VARCHAR(100)   NOT NULL
 );
 
 CREATE TABLE dealerPhoneNum
 (
-phoneNum     VARCHAR(12)  NOT NULL,
-dId          INTEGER      NOT NULL,
-PRIMARY KEY(phoneNum, dId)
+phoneNum     VARCHAR(12)    NOT NULL,
+dId          INTEGER        NOT NULL
 );
 
 CREATE TABLE sale
 (
-  cSsn      INTEGER   NOT NULL,
-  eSsn      INTEGER   NOT NULL,
-  vin       INTEGER   NOT NULL,
-  saleDate  DATE      NOT NULL,
-  PRIMARY KEY(cSsn,eSsn,vin,saleDate)
+  cSsn       INTEGER        NOT NULL,
+  eSsn       INTEGER        NOT NULL,
+  vin        INTEGER        NOT NULL,
+  saleDate   DATE           NOT NULL
 );
 
 -----------------------------------------------------------------------
--- Add Forign Keys (In the DDL, every IC must have a unique name; e.g. IC5, IC10, IC15, etc.)
+-- Add IC's (In the DDL, every IC must have a unique name; e.g. IC5, IC10, IC15, etc.)
 ----------------------------------------------------------------------
+
+--Not Nulls --
+
+
+--Primary keys--
+ALTER TABLE employee ADD CONSTRAINT employee_pk PRIMARY KEY(ssn);
+ALTER TABLE customer ADD CONSTRAINT customer_pk PRIMARY KEY(ssn);
+ALTER TABLE vehicle ADD CONSTRAINT vehicle_pk PRIMARY KEY(vin);
+ALTER TABLE model ADD CONSTRAINT model_pk PRIMARY KEY(mNum);
+ALTER TABLE dealership ADD CONSTRAINT dealership_pk PRIMARY KEY(id);
+ALTER TABLE dealerPhoneNum ADD CONSTRAINT dealerPhoneNum_pk PRIMARY KEY(phoneNum, dId);
+ALTER TABLE sale ADD CONSTRAINT sale_pk PRIMARY KEY(cSsn,eSsn,vin,saleDate);
 
 --Foreign keys--
 ALTER TABLE customer ADD CONSTRAINT IC1_fk FOREIGN KEY (eSsn) REFERENCES employee(ssn);
@@ -180,7 +190,7 @@ insert into employee values (111111111, 123456767, 0.2, 21.0, 1);
 --Testing < > key on Dealership
 insert into dealership values( NULL , 'dealership 1', '44 northride ave');
 
---Testing < > Foreign Key on employee and dealership
+--Testing <IC2_fk and employee_pk> Foreign Key on employee and dealership
 insert into dealership values( 5 , 'dealership 1', '44 northride ave');
 insert into dealership values( 6 , 'dealership 1', '44 northride ave');
 insert into employee values(22222222, 5438889543, 0.03, 20.1, 5);
@@ -199,15 +209,47 @@ COMMIT;
 --    3. The SQL code for the query.
 -----------------------------------------------------------------------
 
+/*
+  Select ALL 
+	Returns all of the data in the employee table
+*/
+SELECT * FROM employee;
 
+/*
+  Select ALL 
+	Returns all of the data in the customer table
+*/
+SELECT * FROM customer;
 
-COMMIT;
+/*
+  Select ALL 
+	Returns all of the data in the customer table
+*/
+SELECT * FROM customer;
 
-SPOOL OFF
+/*
+  Select ALL 
+	Returns all of the data in the model table
+*/
+SELECT * FROM model;
 
+/*
+  Select ALL 
+	Returns all of the data in the dealership table
+*/
+SELECT * FROM dealership;
 
-SPOOL dealership-a.out
-SET ECHO ON
+/*
+  Select ALL 
+	Returns all of the data in the dealerPhoneNum table
+*/
+SELECT * FROM dealerPhoneNum;
+
+/*
+  Select ALL 
+	Returns all of the data in the sale table
+*/
+SELECT * FROM sale;
 
 /*
 	SELF JOIN (2)
@@ -335,6 +377,6 @@ FROM 	(
 WHERE 	E.rate = X.rate;
 
 
-SET ECHO OFF
-SPOOL OFF
+COMMIT;
 
+SPOOL OFF
