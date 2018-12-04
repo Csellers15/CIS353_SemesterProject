@@ -204,3 +204,137 @@ COMMIT;
 COMMIT;
 
 SPOOL OFF
+
+
+SPOOL dealership-a.out
+SET ECHO ON
+
+/*
+	SELF JOIN (2)
+	Get pairs of employees with the same rates
+*/
+SELECT 	e1.ssn, e2.ssn, e1.rate
+FROM	employee e1, employee e2
+WHERE	e1.ssn <> e2.ssn AND e1.rate = e2.rate AND e1.ssn < e2.ssn;
+
+/*
+	FOUR TABLE JOIN (1)
+	Get pairs of employees with the same rates
+*/
+#	Enter code here
+#	Enter code here
+#	Enter code here
+
+/*
+	SUM/AVG/MAX/MIN CALCULATIONS (4)
+	Get AVG, MIN, and MAX rates for employees
+	at each dealership
+*/
+SELECT 		D.id, AVG(E.rate), MIN(E.rate), MAX(E.rate)
+FROM		employee E, dealership D
+WHERE		E.dId = D.id
+GROUP BY	D.id;
+
+
+/*
+	GROUP BY (5)
+	Get the average cost of a vehicle based on its
+	model year, considering model years 2017+
+*/
+SELECT 		M.year, AVG(V.cost)
+FROM		vehicle V, model M
+WHERE		V.mNum = M.mNum
+GROUP BY	M.year
+HAVING		M.year >= 2017
+ORDER BY	M.year;
+
+/*
+	RELATIONAL DIVISION / SET MINUS (3, 8)
+	For every dealership who works on every project that is located in 
+	Stafford: Find the ssn and lname. Sort the results by lname
+
+	TODO: 	This needs to be reworked to fit the dealership. Not sure how
+			this one can be done.
+*/
+/*
+SELECT		E.ssn, E.lname 
+FROM		employee E
+WHERE		NOT EXISTS(
+		(SELECT  P.pnumber 
+		FROM project P
+		WHERE P.plocation = 'Stafford')
+		MINUS
+		(SELECT	P.pnumber
+		FROM	works_on W, project P 
+		WHERE	W.essn = E.ssn  AND 
+				W.pno = P.pnumber  AND 
+				P.plocation = 'Stafford')
+);
+*/
+
+/*
+	CORRELATED SUBQUERY (6)
+	For every employee who has the highest rate 
+	in his dealership: Find the dId, ssn, and 
+	rate. Sort the results by dealership number.
+*/
+SELECT		E.dId, E.ssn, E.rate
+FROM		dealership D, employee E
+WHERE		E.dId = D.id AND E.rate = 
+			(
+				SELECT 		MAX(E2.rate)
+				FROM 		employee E2
+				WHERE		E2.dId = D.id
+			)
+ORDER BY 	E.dId;
+
+
+/*
+	NON-CORRELATED SUBQUERY (7)
+	For every employee who has not sold any vehicle
+	that is red or black: Find the ssn and dId. 
+	Sort the results by dId
+*/
+SELECT		E.ssn, E.dId
+FROM		employee E
+WHERE		NOT E.ssn IN (
+			SELECT		S.essn
+			FROM		sale S, employee E, vehicle V
+			WHERE		S.vin = V.vin AND 
+						(V.color = 'red' OR V.color = 'black') AND 
+						S.essn = E.ssn
+			)
+ORDER BY 	E.dId;
+
+
+/*
+	RANK QUERY (10)
+	Find the rank of $18.75 in the employee's rates
+*/
+SELECT RANK(18.75) WITHIN GROUP
+	(ORDER BY rate DESC) "Rank of 18.75"
+	FROM employee;
+
+
+/* TOP-N QUERY (11)
+For every employee whose rate is equal to 
+one of the two lowest rates, Find the ssn, 
+rate, and dId.
+*/
+SELECT 	E.ssn, E.rate, E.dId
+FROM 	(
+	SELECT 	rate
+	FROM 	(
+		SELECT 	rate
+		FROM 	employee
+		GROUP BY rate
+		ORDER BY rate ASC
+	)
+	WHERE ROWNUM <= 2
+) X, employee E
+WHERE 	E.rate = X.rate;
+
+
+SET ECHO OFF
+SPOOL OFF
+
